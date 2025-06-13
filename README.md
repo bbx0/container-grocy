@@ -1,52 +1,71 @@
+<!-- markdownlint-configure-file { "no-inline-html": { "allowed_elements": [ "br" ] } } -->
 # Grocy container
 
-Distribution of [Grocy](https://github.com/grocy/grocy) as a Docker image.
+[![docker](https://img.shields.io/badge/Docker%20Hub-1D63ED?logo=docker&logoColor=white)](https://hub.docker.com/r/bbx0/grocy) [![GitHub](https://img.shields.io/badge/GitHub-black?logo=github&logoColor=white)](https://github.com/bbx0/container-grocy)
 
-- GitHub: [bbx0/container-grocy](https://github.com/bbx0/container-grocy): [Dockerfile](https://github.com/bbx0/container-grocy/blob/main/Dockerfile)
-- Docker Hub: [bbx0/grocy](https://hub.docker.com/r/bbx0/grocy)
+A distribution of [Grocy](https://github.com/grocy/grocy) based on the [Docker Official Images](https://github.com/docker-library/official-images#what-are-official-images) for [PHP](https://hub.docker.com/_/php).
 
-This is an unofficial community contribution. Please see [grocy-docker](https://github.com/grocy/grocy-docker) for an upstream container image.
+This is a user contribution to the Grocy Community.
 
 ## Tags and Variants
 
-The latest patch release of Grocy release is continuously (daily) build and published here as container. The shared tags below link to the latest point release.
+The latest [Grocy release](https://github.com/grocy/grocy/releases) is continuously built and published as shared tag using a [GitHub workflow](https://github.com/bbx0/container-grocy/actions/workflows/main.yaml).
 
-**Experimental:** The container automates update handling. In non-container Grocy updates are a simple manual process ([How to update](https://github.com/grocy/grocy/tree/release#how-to-update) and [#2384](https://github.com/grocy/grocy/issues/2384)). This process is automatically executed each time when the container is started. The container does not handle backups for you.
+The `:latest` tag follows the current version. Please see the [Grocy releases](https://github.com/grocy/grocy/releases) for a changelog of new versions.
 
-Please subscribe and watch the [Grocy releases](https://github.com/grocy/grocy/releases) for new versions and read the changelog.
+| Tag                    | Comment             |
+| ---------------------- | ------------------- |
+| [ghcr.io/bbx0/grocy:latest](https://github.com/bbx0/container-grocy/blob/main/Dockerfile)<br>[ghcr.io/bbx0/grocy:4.5](https://github.com/bbx0/container-grocy/blob/main/Dockerfile) | **current**         |
+| [ghcr.io/bbx0/grocy:4.4](https://github.com/bbx0/container-grocy/blob/main/Dockerfile) | EOL, please upgrade |
+| [ghcr.io/bbx0/grocy:4.3](https://github.com/bbx0/container-grocy/blob/main/Dockerfile) | EOL, please upgrade |
+| [ghcr.io/bbx0/grocy:4.2](https://github.com/bbx0/container-grocy/blob/main/Dockerfile) | EOL, please upgrade |
+| [ghcr.io/bbx0/grocy:4.1](https://github.com/bbx0/container-grocy/blob/main/Dockerfile) | EOL, please upgrade |
+| [ghcr.io/bbx0/grocy:4.0](https://github.com/bbx0/container-grocy/blob/main/Dockerfile) | EOL, please upgrade |
+| [ghcr.io/bbx0/grocy:3.3](https://github.com/bbx0/container-grocy/blob/main/Dockerfile) | EOL, please upgrade |
 
-The `:latest` tag follows the current version.
+The container images are built multi-platform for: `linux/amd64` and `linux/arm64`.
 
-| Tag                    | Base image                                                                                                                            | Comment             |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
-| ghcr.io/bbx0/grocy:4.4 | [php:8.3-fpm-alpine](https://github.com/docker-library/docs/blob/master/php/README.md#supported-tags-and-respective-dockerfile-links) | **current**         |
-| ghcr.io/bbx0/grocy:4.3 | php:8.3-fpm-alpine                                                                                                                    | EOL, please upgrade |
-| ghcr.io/bbx0/grocy:4.2 | php:8.3-fpm-alpine                                                                                                                    | EOL, please upgrade |
-| ghcr.io/bbx0/grocy:4.1 | php:8.3-fpm-alpine                                                                                                                    | EOL, please upgrade |
-| ghcr.io/bbx0/grocy:4.0 | php:8.2-fpm-alpine                                                                                                                    | EOL, please upgrade |
-| ghcr.io/bbx0/grocy:3.3 | php:8.1-fpm-alpine                                                                                                                    | EOL, please upgrade |
-
-The `EOL` tags are built on best-effort basis and will eventually be removed after a while.
-
-You may use a pinned version (e.g. `4.1.0`) but be aware only the very latest patch release is part of the automatic rebuild.
+The `EOL` tags are built on best-effort basis and will eventually be removed.
 
 ## Usage
 
-Please run the Grocy container behind a reverse proxy for SSL and HTTP configuration.
-
 The container requires a `/data` volume and exposes Grocy on port `8080`.
 
-Grocy configuration is supported via environment variables with prefix `GROCY_`. Please see the upstream reference file [config-dist.php](https://github.com/grocy/grocy/blob/release/config-dist.php) for available options.
+The default login is `admin:admin`, please change it!
 
 ### Quick Start
 
-```bash
-# Run an ephemeral Grocy Demo instance on port 8080
-podman run --rm --read-only --publish 8080:8080 -e GROCY_MODE=demo ghcr.io/bbx0/grocy
-
-# Run a Grocy instance on port 8080 with a /data volume and the currency Euro
-podman run --rm --read-only --publish 8080:8080 -e GROCY_CURRENCY=EUR -v grocy_data:/data ghcr.io/bbx0/grocy
+```yaml
+# compose.yaml
+# usage: 
+#  - docker compose up
+#  - docker-compose run --no-TTY --rm app
+name: grocy
+services:
+  app:
+    image: bbx0/grocy
+    read_only: true
+    ports:
+      - "127.0.0.1:8080:8080" # Listen on http://127.0.0.1:8080
+    environment:
+      - GROCY_CURRENCY=EUR    # Set currency to Euro
+    volumes:
+      - ./data:/data          # The Grocy data directory
 ```
+
+```bash
+# Run a Grocy instance on port 8080 with a /data volume and the currency Euro
+docker run --rm --read-only --publish 8080:8080 -e GROCY_CURRENCY=EUR -v ./data:/data bbx0/grocy
+
+# Run an ephemeral Grocy Demo instance on port 8080
+docker run --rm --read-only --publish 8080:8080 -e GROCY_MODE=demo bbx0/grocy
+```
+
+### Configuration
+
+Configuration is supported using **Environment Variables** with the prefix `GROCY_`. Please see [config-dist.php](https://github.com/grocy/grocy/blob/release/config-dist.php) for the available options, e.g. use `GROCY_CURRENCY=EUR` to set the currency to Euro.
+
+Please run the Grocy container behind a reverse proxy for SSL and HTTP configuration.
 
 ### Example with Caddy as reverse proxy
 
@@ -65,27 +84,23 @@ https://grocy.home.arpa {
 ```
 
 ```yml
-# docker-compose.yml
-
+# compose.yml
 name: grocy
-
 services:
   app:
-    image: ghcr.io/bbx0/grocy
+    image: bbx0/grocy
     read_only: true
     volumes:
       - grocy_data:/data
     environment:
       - GROCY_CURRENCY=EUR
-
   reverse-proxy:
-    image: docker.io/library/caddy:2
+    image: caddy:2
     ports:
       - "8443:443"
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
       - caddy_data:/data
-
 volumes:
   grocy_data:
   caddy_data:
