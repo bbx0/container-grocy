@@ -20,7 +20,6 @@ The `:latest` tag follows the current version. Please see the [Grocy releases](h
 | [ghcr.io/bbx0/grocy:4.3](https://github.com/bbx0/container-grocy/blob/main/Dockerfile) | EOL, please upgrade |
 | [ghcr.io/bbx0/grocy:4.2](https://github.com/bbx0/container-grocy/blob/main/Dockerfile) | EOL, please upgrade |
 | [ghcr.io/bbx0/grocy:4.1](https://github.com/bbx0/container-grocy/blob/main/Dockerfile) | EOL, please upgrade |
-| [ghcr.io/bbx0/grocy:4.0](https://github.com/bbx0/container-grocy/blob/main/Dockerfile) | EOL, please upgrade |
 
 The container images are built multi-platform for: `linux/amd64` and `linux/arm64`.
 
