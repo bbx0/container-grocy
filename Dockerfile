@@ -2,7 +2,7 @@
 # check=error=true
 
 # Supported grocy and php version
-ARG GROCY_VERSION=4.3.0
+ARG GROCY_VERSION=4.4.0
 ARG BASE_IMAGE=docker.io/php:8.3-fpm-alpine
 
 # Build environment and defaults
@@ -113,11 +113,11 @@ COPY --link --from=builder /rootfs/ /
 VOLUME ${GROCY_DATAPATH}
 
 LABEL\
-	org.opencontainers.image.title="Grocy" \
-	org.opencontainers.image.description="Grocy is a self-hosted groceries & household management solution." \
-	org.opencontainers.image.licenses="MIT" \
-	org.opencontainers.image.vendor="Grocy Community (unofficial)" \
-	org.opencontainers.image.version=${GROCY_VERSION} \
-	org.opencontainers.image.source="https://github.com/bbx0/container-grocy" \
-	org.opencontainers.image.authors="39773919+bbx0@users.noreply.github.com" \
-	org.opencontainers.image.base.name=${BASE_IMAGE}
+	org.opencontainers.image.title='Grocy' \
+	org.opencontainers.image.description='Grocy is a self-hosted groceries & household management solution.' \
+	org.opencontainers.image.licenses='MIT' \
+	org.opencontainers.image.vendor='Grocy Community (unofficial)' \
+	org.opencontainers.image.version="${GROCY_VERSION}" \
+	org.opencontainers.image.source='https://github.com/bbx0/container-grocy' \
+	org.opencontainers.image.authors='Philipp Micheel <bbx0+grocy@bitdevs.de>' \
+	org.opencontainers.image.base.name="${BASE_IMAGE}"

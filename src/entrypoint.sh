@@ -36,13 +36,15 @@ printf '%s' "${GROCY_VERSION}" >"${version_file}"
 # Initialize the data volume but do not overwrite existing files
 cp -anv -t "${GROCY_DATAPATH}" /var/www/data/*
 
-# Invoke grocy once to generate or update the grocy.db
+# Invoke grocy to generate or update the grocy.db
 # Ensure the www-data user has proper access (php-fpm drops to `www-data` when started as root user)
 if [ "$(id -u)" = "0" ]; then
 	chown --changes --recursive "www-data:www-data" "${GROCY_DATAPATH}"
-	su www-data -s "$(which php)" /var/www/public/index.php
+	su -s "$(which php)" www-data /var/www/public/index.php # create new hash file
+	su -s "$(which php)" www-data /var/www/public/index.php # do the migration
 else
-	php -f /var/www/public/index.php
+	php -f /var/www/public/index.php # create new hash file
+	php -f /var/www/public/index.php # do the migration
 fi
 
 # Run to the supplied CMD

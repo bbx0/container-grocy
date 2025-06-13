@@ -19,7 +19,8 @@ The `:latest` tag follows the current version.
 
 | Tag                    | Base image                                                                                                                            | Comment             |
 | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------- | ------------------- |
-| ghcr.io/bbx0/grocy:4.3 | [php:8.3-fpm-alpine](https://github.com/docker-library/docs/blob/master/php/README.md#supported-tags-and-respective-dockerfile-links) | **current**         |
+| ghcr.io/bbx0/grocy:4.4 | [php:8.3-fpm-alpine](https://github.com/docker-library/docs/blob/master/php/README.md#supported-tags-and-respective-dockerfile-links) | **current**         |
+| ghcr.io/bbx0/grocy:4.3 | php:8.3-fpm-alpine                                                                                                                    | EOL, please upgrade |
 | ghcr.io/bbx0/grocy:4.2 | php:8.3-fpm-alpine                                                                                                                    | EOL, please upgrade |
 | ghcr.io/bbx0/grocy:4.1 | php:8.3-fpm-alpine                                                                                                                    | EOL, please upgrade |
 | ghcr.io/bbx0/grocy:4.0 | php:8.2-fpm-alpine                                                                                                                    | EOL, please upgrade |

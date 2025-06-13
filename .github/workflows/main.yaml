@@ -30,6 +30,10 @@ jobs:
             tag_major_minor: true
           - version: "4.3"
             base_image: "docker.io/php:8.3-fpm-alpine"
+            tag_latest: false
+            tag_major_minor: true
+          - version: "4.4"
+            base_image: "docker.io/php:8.3-fpm-alpine"
             tag_latest: true
             tag_major_minor: true
     uses: ./.github/workflows/build-push.yaml
