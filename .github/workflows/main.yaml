@@ -12,10 +12,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - version: "4.2"
-            base_image: "docker.io/php:8.3-fpm-alpine"
-            tag_latest: false
-            tag_major_minor: true
           - version: "4.3"
             base_image: "docker.io/php:8.3-fpm-alpine"
             tag_latest: false
