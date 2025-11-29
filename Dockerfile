@@ -26,7 +26,7 @@ ADD --link --chmod=644 src/nginx.conf /nginx/
 ## Pull Grocy from upstream and create a stub for the config.php
 ARG GROCY_VERSION
 ADD --link --keep-git-dir=true https://github.com/grocy/grocy.git#v${GROCY_VERSION} /grocy
-ADD --link --checksum=sha256:cad4776366fead82f0a477271d184e22931357f0946c5e54995fef742099765f --chmod=644 https://berrnd.de/data/Bernd_Bestel.asc /grocy/
+ADD --link --checksum=sha256:efa691e650a31339209feca571799058e0ce89a6c60531dd204a20b2129f8dbc --chmod=644 https://berrnd.de/data/Bernd_Bestel.asc /grocy/
 ADD --link --chmod=644 src/config.php /grocy/data/
 
 # Prepare base image
