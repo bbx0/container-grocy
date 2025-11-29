@@ -16,7 +16,7 @@ FROM scratch AS source
 ADD --link --chmod=755 src/entrypoint.sh /
 
 ## php extension installer
-ADD --link --checksum=sha256:d5b793f2728b966c2798b6415df3d3d53bea6c24e20640cfd2f89da47530e429 --chmod=755 https://github.com/mlocati/docker-php-extension-installer/releases/download/2.7.38/install-php-extensions /
+ADD --link --checksum=sha256:061b5542e57ccf07e6fcffe9f72627287731313889611a94bd838b53cabba8fc --chmod=755 https://github.com/mlocati/docker-php-extension-installer/releases/download/2.9.18/install-php-extensions /
 
 ## NGINX (the index.xml is used to invalidate the build cache, when a new NGINX revision is released)
 ADD --link --checksum=sha256:ff7cf138acc09f2a5029300ab713fe6a1440605fca72e2bab76a4da9206fec87 --chmod=644 https://nginx.org/keys/nginx_signing.rsa.pub /nginx/
@@ -37,7 +37,7 @@ RUN --mount=type=bind,from=source,source=/install-php-extensions,target=/usr/loc
 	mv "${PHP_INI_DIR}/php.ini-production" "${PHP_INI_DIR}/php.ini"
 
 	# Install additional grocy dependencies and enable opcode caching (JIT support requires a defined buffer size)
-	install-php-extensions gd-stable intl-stable ldap-stable
+	install-php-extensions gd intl ldap
 	docker-php-ext-enable opcache
 	echo 'opcache.jit_buffer_size=256M' >"${PHP_INI_DIR}/conf.d/zzz-grocy.ini"
 
