@@ -2,8 +2,8 @@
 # check=error=true
 
 # Supported grocy and php version
-ARG GROCY_VERSION=4.5.0
-ARG BASE_IMAGE=docker.io/php:8.3-fpm-alpine
+ARG GROCY_VERSION=4.6.0
+ARG BASE_IMAGE=docker.io/php:8.5-fpm-alpine
 
 # Build environment and defaults
 ARG GROCY_DATAPATH=/data
@@ -38,8 +38,12 @@ RUN --mount=type=bind,from=source,source=/install-php-extensions,target=/usr/loc
 
 	# Install additional grocy dependencies and enable opcode caching (JIT support requires a defined buffer size)
 	install-php-extensions gd intl ldap
-	docker-php-ext-enable opcache
-	echo 'opcache.jit_buffer_size=256M' >"${PHP_INI_DIR}/conf.d/zzz-grocy.ini"
+
+	# php 8.5 has opcache built-in with a default of opcache.jit_buffer_size=64M
+	if [ "$(apk version -t "${PHP_VERSION}" 8.5.0)" = "<" ]; then
+		docker-php-ext-enable opcache
+		echo 'opcache.jit_buffer_size=256M' >"${PHP_INI_DIR}/conf.d/zzz-grocy.ini"
+	fi
 
 	# Override the php-fpm [www] pool for grocy to listen on a unix socket
 	cat <<-'EOF' >"${PHP_INI_DIR}/../php-fpm.d/zzz-grocy.conf"
@@ -77,8 +81,14 @@ EOT
 RUN php <<-EOT
 	<?php
 	define("GROCY_DATAPATH", "/rootfs/var/www/data");
-	require_once("helpers/PrerequisiteChecker.php"); 
-	(new PrerequisiteChecker())->checkRequirements();
+	require_once("helpers/PrerequisiteChecker.php");
+
+	# Grocy 4.6.0 adds the namespace Grocy\Helpers
+	if (version_compare(getenv('GROCY_VERSION', true), "4.6.0", "<") ) {
+		(new PrerequisiteChecker())->checkRequirements();
+	} else {
+		(new Grocy\Helpers\PrerequisiteChecker())->checkRequirements();
+	}
 EOT
 
 ## Import the entrypoint.sh used to manage the /data volume
