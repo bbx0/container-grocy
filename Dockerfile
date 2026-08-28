@@ -36,14 +36,8 @@ RUN --mount=type=bind,from=source,source=/install-php-extensions,target=/usr/loc
 	# Use default settings for php in production
 	mv "${PHP_INI_DIR}/php.ini-production" "${PHP_INI_DIR}/php.ini"
 
-	# Install additional grocy dependencies and enable opcode caching (JIT support requires a defined buffer size)
+	# Install additional grocy dependencies
 	install-php-extensions gd intl ldap
-
-	# php 8.5 has opcache built-in with a default of opcache.jit_buffer_size=64M
-	if [ "$(apk version -t "${PHP_VERSION}" 8.5.0)" = "<" ]; then
-		docker-php-ext-enable opcache
-		echo 'opcache.jit_buffer_size=256M' >"${PHP_INI_DIR}/conf.d/zzz-grocy.ini"
-	fi
 
 	# Override the php-fpm [www] pool for grocy to listen on a unix socket
 	cat <<-'EOF' >"${PHP_INI_DIR}/../php-fpm.d/zzz-grocy.conf"
@@ -82,13 +76,7 @@ RUN php <<-EOT
 	<?php
 	define("GROCY_DATAPATH", "/rootfs/var/www/data");
 	require_once("helpers/PrerequisiteChecker.php");
-
-	# Grocy 4.6.0 adds the namespace Grocy\Helpers
-	if (version_compare(getenv('GROCY_VERSION', true), "4.6.0", "<") ) {
-		(new PrerequisiteChecker())->checkRequirements();
-	} else {
-		(new Grocy\Helpers\PrerequisiteChecker())->checkRequirements();
-	}
+	(new Grocy\Helpers\PrerequisiteChecker())->checkRequirements();
 EOT
 
 ## Import the entrypoint.sh used to manage the /data volume
