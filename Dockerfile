@@ -2,7 +2,7 @@
 # check=error=true
 
 # Supported grocy and php version
-ARG GROCY_VERSION=4.6.0
+ARG GROCY_VERSION=4.7.0
 ARG BASE_IMAGE=docker.io/php:8.5-fpm-alpine
 
 # Build environment and defaults
@@ -16,7 +16,7 @@ FROM scratch AS source
 ADD --link --chmod=755 src/entrypoint.sh /
 
 ## php extension installer
-ADD --link --checksum=sha256:a83323e94d36fe06511e3f2012b11ba3b88354342d11cf7b12beee1b2b24f801 --chmod=755 https://github.com/mlocati/docker-php-extension-installer/releases/download/2.10.0/install-php-extensions /
+ADD --link --checksum=sha256:7c133ae4b9490d912287188c62ea570729cfa74f0ea357e4be672ce696b4aa29 --chmod=755 https://github.com/mlocati/docker-php-extension-installer/releases/download/2.11.12/install-php-extensions /
 
 ## NGINX (the index.xml is used to invalidate the build cache, when a new NGINX revision is released)
 ADD --link --checksum=sha256:ff7cf138acc09f2a5029300ab713fe6a1440605fca72e2bab76a4da9206fec87 --chmod=644 https://nginx.org/keys/nginx_signing.rsa.pub /nginx/

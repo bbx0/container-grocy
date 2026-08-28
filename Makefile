@@ -4,7 +4,7 @@
 .PHONY := registry-push registry-run podman-run clean clean-data
 .DEFAULT_GOAL := podman-run
 
-GROCY_VERSION	?= 4.6.0
+GROCY_VERSION	?= 4.7.0
 BASE_IMAGE		?= docker.io/php:8.5-fpm-alpine
 
 #GROCY_VERSION	?= $(shell gh api repos/grocy/grocy/releases --paginate --jq 'map(select(.draft==false and .prerelease==false and (.tag_name | startswith("v"))).tag_name[1:])|max')
