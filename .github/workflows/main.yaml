@@ -13,7 +13,7 @@ jobs:
       matrix:
         include:
           - version: "4.7"
-            base_image: "docker.io/php:8.5-fpm-alpine"
+            base_image: "docker.io/php:8.5.12-fpm-alpine"
             tag_latest: true
             tag_major_minor: true
     uses: ./.github/workflows/build-push.yaml

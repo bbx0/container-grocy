@@ -3,7 +3,7 @@
 
 # Supported grocy and php version
 ARG GROCY_VERSION=4.7.0
-ARG BASE_IMAGE=docker.io/php:8.5-fpm-alpine
+ARG BASE_IMAGE=docker.io/php:8.5.12-fpm-alpine
 
 # Build environment and defaults
 ARG GROCY_DATAPATH=/data
